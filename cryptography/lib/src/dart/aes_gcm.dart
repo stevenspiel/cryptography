@@ -93,6 +93,10 @@ class DartAesGcm extends AesGcm with DartAesMixin {
     SecretBox secretBox, {
     required SecretKeyData secretKeyData,
     List<int> aad = const <int>[],
+    // BYPASSING HMAC CALCULATION DUE TO BUG WHEN ENCRYPTION WITH VERSIONS OF
+    // THE APP PREVIOUS TO 2.2.0. SEE https://github.com/dint-dev/cryptography/issues/147
+    @Deprecated('TEMPORARY MEASURE FOR PACKAGE MIGRATION')
+    bool bypassHmacComparison = false,
   }) {
     final actualSecretKeyLength = secretKeyData.bytes.length;
     final expectedSecretKeyLength = secretKeyLength;
@@ -120,6 +124,7 @@ class DartAesGcm extends AesGcm with DartAesMixin {
 
     // Calculate MAC
     final cipherText = secretBox.cipherText;
+
     final mac = secretBox.mac;
     final calculatedMac = const DartGcm()._calculateMacSync(
       cipherText,
@@ -130,7 +135,7 @@ class DartAesGcm extends AesGcm with DartAesMixin {
     );
 
     // Check MAC is correct
-    if (calculatedMac != mac) {
+    if (calculatedMac != mac && !bypassHmacComparison) {
       throw SecretBoxAuthenticationError();
     }
 
