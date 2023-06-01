@@ -40,6 +40,7 @@ abstract class DelegatingCipher implements Cipher {
     required SecretKey secretKey,
     List<int> aad = const <int>[],
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) {
     return fallback.decrypt(
       secretBox,
@@ -431,12 +432,14 @@ abstract class DelegatingStreamingCipher extends DelegatingCipher
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) {
     return fallback.decrypt(
       secretBox,
       secretKey: secretKey,
       aad: aad,
       keyStreamIndex: keyStreamIndex,
+      bypassHmacComparison: bypassHmacComparison,
     );
   }
 

@@ -79,6 +79,7 @@ class DartAesCbc extends AesCbc with DartAesMixin {
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) async {
     // Validate arguments
     final secretKeyData = await secretKey.extract();

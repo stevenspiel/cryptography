@@ -402,6 +402,7 @@ mixin DartCipherWithStateMixin implements StreamingCipher {
     int keyStreamIndex = 0,
     int? chunkSize,
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) async {
     checkParameters(
       length: secretBox.cipherText.length,
@@ -436,6 +437,10 @@ mixin DartCipherWithStateMixin implements StreamingCipher {
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
     Uint8List? possibleBuffer,
+    // BYPASSING HMAC CALCULATION DUE TO BUG WHEN ENCRYPTION WITH VERSIONS OF
+    // THE APP PREVIOUS TO 2.2.0. SEE https://github.com/dint-dev/cryptography/issues/147
+    @Deprecated('TEMPORARY MEASURE FOR PACKAGE MIGRATION')
+    bool bypassHmacComparison = false,
   }) {
     checkParameters(
       length: secretBox.cipherText.length,
@@ -548,6 +553,7 @@ mixin DartStreamingCipherMixin implements StreamingCipher, DartCipher {
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) async {
     final secretKeyData = await secretKey.extract();
     return decryptSync(
@@ -564,6 +570,10 @@ mixin DartStreamingCipherMixin implements StreamingCipher, DartCipher {
     required SecretKeyData secretKey,
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
+    // BYPASSING HMAC CALCULATION DUE TO BUG WHEN ENCRYPTION WITH VERSIONS OF
+    // THE APP PREVIOUS TO 2.2.0. SEE https://github.com/dint-dev/cryptography/issues/147
+    @Deprecated('TEMPORARY MEASURE FOR PACKAGE MIGRATION')
+    bool bypassHmacComparison = false,
   });
 
   @override

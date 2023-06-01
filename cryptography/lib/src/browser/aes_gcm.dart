@@ -54,6 +54,7 @@ class BrowserAesGcm extends AesGcm implements StreamingCipher {
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) async {
     if (keyStreamIndex != 0) {
       throw ArgumentError.value(

@@ -251,6 +251,7 @@ mixin FlutterCipherMixin
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) {
     if (!kIsWeb &&
         isSupportedPlatform &&

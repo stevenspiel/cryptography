@@ -185,6 +185,10 @@ abstract class Cipher {
     required SecretKey secretKey,
     List<int> aad = const <int>[],
     Uint8List? possibleBuffer,
+    // BYPASSING HMAC CALCULATION DUE TO BUG WHEN ENCRYPTION WITH VERSIONS OF
+    // THE APP PREVIOUS TO 2.2.0. SEE https://github.com/dint-dev/cryptography/issues/147
+    @Deprecated('TEMPORARY MEASURE FOR PACKAGE MIGRATION')
+    bool bypassHmacComparison = false,
   });
 
   /// Decrypts a [Stream] of bytes.

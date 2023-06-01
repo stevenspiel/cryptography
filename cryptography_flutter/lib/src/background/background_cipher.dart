@@ -167,6 +167,7 @@ mixin BackgroundCipherMixin implements BackgroundCipher {
     List<int> aad = const <int>[],
     int keyStreamIndex = 0,
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) async {
     if (kIsWeb || !channelPolicy.matches(length: secretBox.cipherText.length)) {
       return await fallback.decrypt(

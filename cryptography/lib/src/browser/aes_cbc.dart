@@ -51,6 +51,7 @@ class BrowserAesCbc extends AesCbc {
     required SecretKey secretKey,
     List<int> aad = const <int>[],
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) async {
     // Authenticate
     await secretBox.checkMac(

@@ -80,12 +80,14 @@ class DartAesGcm extends AesGcm with DartAesMixin {
     required SecretKey secretKey,
     List<int> aad = const <int>[],
     Uint8List? possibleBuffer,
+    bool bypassHmacComparison = false,
   }) async {
     final secretKeyData = await secretKey.extract();
     return decryptSync(
       secretBox,
       secretKeyData: secretKeyData,
       aad: aad,
+      bypassHmacComparison: bypassHmacComparison,
     );
   }
 
@@ -93,9 +95,6 @@ class DartAesGcm extends AesGcm with DartAesMixin {
     SecretBox secretBox, {
     required SecretKeyData secretKeyData,
     List<int> aad = const <int>[],
-    // BYPASSING HMAC CALCULATION DUE TO BUG WHEN ENCRYPTION WITH VERSIONS OF
-    // THE APP PREVIOUS TO 2.2.0. SEE https://github.com/dint-dev/cryptography/issues/147
-    @Deprecated('TEMPORARY MEASURE FOR PACKAGE MIGRATION')
     bool bypassHmacComparison = false,
   }) {
     final actualSecretKeyLength = secretKeyData.bytes.length;
